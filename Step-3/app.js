@@ -8,11 +8,14 @@ After that, it's the next player's turn
 - The player can choose to 'Hold', which means that his ROUND score gets 
 added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
+
+-- Double six reset the score and player lose the turn.
 */
 
-var scores, roundScore, activePlayer, dice, diceDOM, gamePlaying;
+var scores, roundScore, activePlayer, dice, diceDOM, gamePlaying, finalScore, isRolledSixBefore;
 
 var diceDOM = document.querySelector('.dice');
+var finalScoreBox = document.querySelector('.final-score');
 
 startPosition();
 
@@ -28,6 +31,19 @@ document.querySelector('.btn-roll')
                 diceDOM.src = 'dice-' + dice + '.png';
                 diceDOM.style.display = 'block';
                 
+                if(isRolledSixBefore && dice === 6) {
+                    scores[activePlayer] = 0;
+                    document.getElementById('score-' + activePlayer).textContent = 0;
+                    isRolledSixBefore = false;
+                    nextPlayer();
+                }
+                else if(!isRolledSixBefore && dice === 6) {
+                    isRolledSixBefore = true;
+                }
+                else if(dice !== 6) {
+                    isRolledSixBefore = false;
+                }
+
                 // Set the current score
                 if(dice !== 1) {
                     // Set score
@@ -54,7 +70,10 @@ document.querySelector('.btn-hold')
                         .textContent = scores[activePlayer];
 
                 // Check if the player win or not
-                if(scores[activePlayer] >= 100) {
+                if(finalScoreBox.value !== "" && finalScoreBox.value !== finalScore) {
+                    alert('Final score change affect after start a new game. Current final score is: ' + finalScore);
+                }
+                if(scores[activePlayer] >= finalScore) {
                     document.querySelector('#name-' + activePlayer)
                             .textContent = 'WINNER!..'
                     diceDOM.style.display = 'none';
@@ -92,6 +111,10 @@ function startPosition() {
     scores = [0, 0];
     roundScore = 0;
     activePlayer = 0;
+    isRolledSixBefore = false;
+
+    var finalBoxValue = finalScoreBox.value;
+    finalBoxValue === "" ? finalScore = 100 : finalScore = finalBoxValue;
 
     diceDOM.style.display = 'none';
 

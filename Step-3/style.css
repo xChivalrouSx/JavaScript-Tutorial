@@ -45,7 +45,17 @@ body {
     padding: 100px;
 }
 
-
+.final-score {
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 520px;
+    text-align: center;
+    font-family: Lato;
+    font-size: 20px;
+    padding: 5px;
+}
 
 /**********************************************
 *** PLAYERS
