@@ -279,7 +279,7 @@ while(true) {
 
     if(ans === 'exit') {
         break;
-    }
-};
+    };
+}
 
 
